@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title> Tagz Manager </title>
+    <link rel="stylesheet" href="/G87/js/basic.css" />
+    <link rel="stylesheet" href="style.css" />
+    
+    <script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script language="javascript" src="/G87/js/basic.js"></script>
+    <script language="javascript" src="script.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <h1 class="title">
+        <img src="/G87/images/logo.png" class="logo" />
+        Tagz Manager
+      </h1>
+      <div class="login"></div>
+    </div><!-- end .header -->
+    
+    <div class="qPanel">
+      <form method="post" id="qForm">
+        <input type="text" name="q" 
+        /><input type="submit" name="submit" value="go"
+        /><input type="button" name="newObject" rel=".newObject.dialog" value="Create New" />
+      </form>
+    </div><!-- end .qPanel -->
+    
+    <div class="objects">
+      
+    </div>
+    
+    <div class="newObject dialog">
+      <h2>Create a new Object...</h2>
+      <p>Enter the object's JSON</p>
+      <textarea id="newObject-json"></textarea>
+      <input type="button" id="newObject-createButton" value="Create" />
+      <a href="javascript:;" class="close">Cancel</a>
+    </div>
+  </body>
+</html>
