@@ -53,11 +53,16 @@ h2, input {
   width: 691px;
 }
 
-.newObject.dialog {
+.objAction.dialog {
   width: 400px;
 }
 
-#newObject-json {
+.objAction.dialog.create .edit,
+.objAction.dialog.edit .create {
+  display: none;
+}
+
+#objAction-json {
   width: 100%;
   height: 300px;
   margin: 10px 0;

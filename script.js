@@ -13,22 +13,23 @@ var tm = {
       return false;
     });
     
-    $('#qForm input[name="newObject"]').overlay({
-      mask: {
-        color: '#000',
-        opacity: 0.5
-      }
-    });
+    tm.bindObjectActionOverlay('#qForm input[name="createObject"]', 'create');
     
-    $('#newObject-createButton').click(function() {
-      var json = $('#newObject-json').val();
+    $('.objAction-actionButton').click(function() {
+      var json = $('#objAction-json').val();
       try {
         var obj = JSON.parse(json);
-        if(obj) tagz.create(obj, function(data) {
-          tm.alert(data);
-          $('#qForm input[name="newObject"]').data('overlay').close();
-        });
-        else tm.alert('cannot create object: '+json);
+        if(obj) {
+          var callback = function(data) {
+            tm.alert(data);
+            $('.objAction.dialog .close').click();
+            $('#qForm').submit();
+          }
+          
+          if($(this).is('.create')) tagz.create(obj, callback);
+          if($(this).is('.edit')) tagz.update(obj, callback);
+        }
+        else tm.alert('cannot save object: '+json);
       } catch(ex) {
         tm.alert('Failed to parse JSON');
       }
@@ -39,8 +40,43 @@ var tm = {
       var object = $(this).parents('.object');
       var objId = object.attr('id');
       
-      if($(this).is('.edit')) tm.alert('will edit '+objId);
-      if($(this).is('.delete')) tm.alert('will delete '+objId);
+      if($(this).is('.edit')) {
+        if(!$(this).data('overlay')) {
+          tm.bindObjectActionOverlay(this, 'edit', function() {
+            var objJson = $('.object-json', object).text();
+            return objJson;
+          });
+          var overlay = $(this).data('overlay');
+          $(this).click();
+          return;
+        }
+        
+        
+      }
+      if($(this).is('.delete')) tagz.remove(objId, function(data) {
+        tm.alert(data);
+        $('#qForm').submit();
+      })
+    });
+  },
+  
+  bindObjectActionOverlay: function(sel, action, getValue) {
+    $(sel).overlay({
+      target: '.objAction.dialog',
+      mask: {
+        color: '#000',
+        opacity: 0.5
+      },
+      onBeforeLoad: function() {
+        var overlay = this.getOverlay();
+        if(action == 'create') overlay.removeClass('edit').addClass('create');
+        else if(action == 'edit') overlay.removeClass('create').addClass('edit');
+        
+        var value = '';
+        if(getValue) value = getValue();
+        
+        $('#objAction-json').text(value);
+      }
     });
   },
   
@@ -71,12 +107,6 @@ var tm = {
         
         $('.objects').append($.template(tm.objTemplate), def);
       }
-    });
-  },
-  
-  handleNewObjectDialog: function() {
-    $('.newObject.dialog').overlay({
-      top: 200
     });
   }
 };
