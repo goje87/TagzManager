@@ -101,7 +101,7 @@ var tm = {
       for(var i=0; i<data.length; i++) {
         var obj = data[i];
         var def = {
-          objectId: obj.objectId,
+          objectId: obj.meta.id,
           objectJson: JSON.stringify(obj, null, '  ')
         };
         
