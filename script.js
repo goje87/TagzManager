@@ -15,6 +15,14 @@ var tm = {
     
     tm.bindObjectActionOverlay('#qForm input[name="createObject"]', 'create');
     
+    $('.loading-main')
+      .ajaxStart(function() {
+        $(this).show();
+      })
+      .ajaxStop(function() {
+        $(this).hide();
+      });
+    
     $('.objAction-actionButton').click(function() {
       var json = $('#objAction-json').val();
       try {
