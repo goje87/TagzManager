@@ -1,7 +1,7 @@
 $.require('http://cdn.jquerytools.org/1.2.6/all/jquery.tools.min.js', function() {
   $(tm.init);
 });
-$.require('/t/Tagz.js');
+$.require('/t/tagz.js');
 
 var tm = {
   init: function() {
